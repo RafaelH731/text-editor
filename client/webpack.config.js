@@ -18,12 +18,56 @@ module.exports = () => {
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
+      new HtmlWebpackPlugin({
+        // inserts html file into dist directory
+        template: "./index.html",
+        title: "Webpack Plugin",
+      }),
+      // inserts workbox service worker into dist directory
+      new InjectManifest({
+        swSrc: "./src-sw.js",
+        swDest: "src-sw.js",
+      }),
+
+      // Creates a manifest.json file.
+      new WebpackPwaManifest({
+        fingerprints: false,
+        inject: true,
+        name: "Text Editor",
+        short_name: "Text",
+        description: "PWA Text Editor",
+        background_color: "#225ca3",
+        theme_color: "#225ca3",
+        start_url: "/",
+        publicPath: "/",
+        icons: [
+          {
+            src: path.resolve("src/images/logo.png"),
+            sizes: [96, 128, 192, 256, 384, 512],
+            destination: path.join("assets", "icons"),
+          },
+        ],
+      }),
       
     ],
 
     module: {
+      
       rules: [
-        
+        {
+          test: /\.css$/i, //regex that finds css
+          use: ["style-loader", "css-loader"],
+        },
+        {
+          test: /\.m?js$/, //regex that finds js
+          exclude: /(node_modules|bower_components)/,
+          use: {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env"],
+            },
+          },
+        },
       ],
     },
   };
