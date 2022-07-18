@@ -16,7 +16,8 @@ const initdb = async () =>
 
 //export const putDb = async (content) => console.error('putDb not implemented');
 
-console.log('PUT to the database');
+export const putDb = async (content) => {
+  console.log('PUT to the database')
 //creates connection
   const jateDb = await openDB('jate', 1);
   //transaction that allows jate and readwrite
@@ -28,7 +29,7 @@ console.log('PUT to the database');
   //result
   const result = await request;
   console.log('🚀 - data saved to the database', result);
-
+};
 // TODO: Add logic for a method that gets all the content from the database
 
 //export const getDb = async () => console.error('getDb not implemented');
